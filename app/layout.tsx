@@ -1,5 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import Navbar from '@/components/Navbar'
+import Preloader from '@/components/Preloader'
 
 export const metadata: Metadata = {
   title: 'Portfolio Fikri Rahmansyah',
@@ -14,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body>
-        {children}
+        <Preloader />
+        <Navbar />
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   )
