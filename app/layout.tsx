@@ -3,7 +3,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import Preloader from "@/components/Preloader";
-import ClientEffects from "@/components/effects/ClientEffects";
 import { Locale } from "@/lib/dictionary";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -12,24 +11,24 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://portfolio-fikrirahmansyah510.vercel.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://deftvalian.vercel.app"),
   title: {
-    default: "Fikri Rahmansyah | Fullstack Developer",
-    template: "%s | Fikri Rahmansyah",
+    default: "Fikri rahmansyah | Fullstack Developer",
+    template: "%s | Fikri rahmansyah",
   },
   description:
     "Website portofolio personal Fullstack Developer yang colorful dan interaktif.",
   openGraph: {
-    title: "Fikri Rahmansyah | Fullstack Developer",
+    title: "Fikri rahmansyah | Fullstack Developer",
     description: "Portofolio interaktif dan modern dari seorang Fullstack Developer.",
     url: "/",
-    siteName: "Fikri Rahmansyah",
+    siteName: "Fikri rahmansyah",
     images: [
       {
         url: "/images/hero.webp",
         width: 1200,
         height: 630,
-        alt: "Fikri Rahmansyah Portfolio Thumbnail",
+        alt: "Fikri rahmansyah Portfolio Thumbnail",
       },
     ],
     locale: "id_ID",
@@ -37,27 +36,31 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fikri Rahmansyah | Fullstack Developer",
+    title: "Fikri rahmansyah | Fullstack Developer",
     description: "Portofolio interaktif dan modern dari seorang Fullstack Developer.",
     images: ["/images/hero.webp"],
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  // 1. PERUBAHAN DISINI: 'Locale' diganti jadi 'string' agar Next.js tidak marah
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+
   return (
-    <html lang="id">
+    <html lang={locale}>
       <body
-        className={`${plusJakartaSans.className} bg-brand-bg text-brand-text antialiased selection:bg-brand-pink selection:text-white`}
+        className={`${plusJakartaSans.className} bg-brand-bg text-brand-text antialiased selection:bg-brand-pink selection:text-white `}
       >
         <Preloader />
-        <ClientEffects />
 
-        {/* Navbar dipatenkan menggunakan bahasa 'id' (Indonesia) agar desainnya tidak rusak */}
-        <Navbar locale={"id" as Locale} />
+        {/* 2. PERUBAHAN DISINI: Tambahkan 'as Locale' agar komponen Navbar tetap aman */}
+        <Navbar locale={locale as Locale} />
 
         <main className="pt-14 min-h-screen px-6 md:px-12 max-w-6xl mx-auto w-full overflow-x-hidden">
           {children}
